@@ -32,5 +32,16 @@ int main()
 {
 
 }
+void Menu ()
+{
+	cout << "Menu:" << endl;
+	cout << "1.Start new game" << endl;
+	cout << "2.Settings:" << endl;
+	cout << " a.Change the number of rounds" << endl;
+	cout << " b.Change the number of letters" << endl;
+	cout << " c.Change the number of all rounds to more than 60" << endl;
+	cout << "3.Enter a new word" << endl;
+	cout << "4.Exit" << endl;
+}
 
 
