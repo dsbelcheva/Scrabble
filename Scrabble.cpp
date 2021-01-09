@@ -56,5 +56,16 @@ int Options ()
 	while (option_of_menu > 4);
 	return option_of_menu;
 }
+bool OnlyLetters (string word1)
+{
+	bool is_letter = 1;    //check if the character is letter
+	for (int i = 0; word1[i] != '\0'; i++) {
+		if (!(word1[i] <= 'z' && word1[i] >= 'a')) {
+			is_letter = 0;
+			break;
+		}
+	}
+	return is_letter;
+}
 
 
