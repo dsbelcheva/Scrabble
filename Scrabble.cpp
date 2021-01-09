@@ -43,5 +43,18 @@ void Menu ()
 	cout << "3.Enter a new word" << endl;
 	cout << "4.Exit" << endl;
 }
+int Options ()
+{
+	int option_of_menu;
+	do {
+		cout << "Select one of the above options: ";
+		cin >> option_of_menu;
+		if (option_of_menu > 4) {
+			cout << "Incorrect input.Please select one of the above options.";
+		}
+	} 
+	while (option_of_menu > 4);
+	return option_of_menu;
+}
 
 
