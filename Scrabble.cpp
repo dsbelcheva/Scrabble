@@ -146,6 +146,14 @@ int CheckTheWords (string line, string word)
 	}
 	return sum_of_points;
 }
+void Words (string new_word)
+{
+	ofstream word2;
+	word2.open("Dictionary.txt", ios::app);
+	word2 << new_word << endl;
+	word2.close();
+}
+
 
 
 
