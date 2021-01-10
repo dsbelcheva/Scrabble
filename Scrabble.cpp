@@ -153,7 +153,28 @@ void Words (string new_word)
 	word2 << new_word << endl;
 	word2.close();
 }
-
+void AddWord ()
+{
+	string addword;
+	int size_of_addword = 0;      //in order to do the while-loop for first time
+	do {
+		cout << "Enter a new word: ";
+		cin >> addword;
+		size_of_addword = addword.size();
+		if (size_of_addword != 25) {
+			cout << "The number of letters must be 25!Try again." << endl;
+		}
+		else {
+			for (int i = 0; i < size_of_addword * 2; i++) {    //It is size_of_addword*2 because of the intervals between every letters.
+				if (addword[i] != ' ') {
+					addword.insert(i + 1, " ");
+				}
+			}
+		}
+	} 
+	while (size_of_addword != 25);
+	Words(addword);
+}
 
 
 
