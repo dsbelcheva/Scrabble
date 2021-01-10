@@ -29,7 +29,96 @@ void Words (string new_word);
 void AddWord ();
 int main()
 {
+	Menu();
+	int option1_of_menu = Options();
+	int number_of_rounds = 10;
+	int numberofletters = 10;
+	int numberof_roundstoinput;
+	int input_numberofletters;
+	int numberof_therest_ofrounds = 0;
+	int sumof_allrounds_infile = 50;
+	int all_rounds = 60;
+	int new_allrounds;
+	char option2_of_menu;
+	while (option1_of_menu != 4) {
+		switch (option1_of_menu) {
+		case 1: {
+			NewGame(number_of_rounds, numberofletters);
+			cout << endl;
+			cout << ">>Returning to menu.";
+			cout << endl;
+			break;
+		}
+		case 2: {
+			cout << "Select one of the two sub-options: ";
+			cin >> option2_of_menu;
+			if (option2_of_menu == 'a') {
+				do {
+					cout << "Enter number of rounds: ";
+					cin >> number_of_rounds;
+					if (number_of_rounds > all_rounds) cout << "The maximum number of all rounds is " << all_rounds << " !" << endl;
+				} 
+				while (number_of_rounds > all_rounds);
+				if (number_of_rounds > 50) {
+					if (number_of_rounds != sumof_allrounds_infile) {
+						numberof_roundstoinput = number_of_rounds - sumof_allrounds_infile;
+						numberof_therest_ofrounds = all_rounds - number_of_rounds;
+						cout << "You need to input " << numberof_roundstoinput << " words in the dictionary." << endl;
+						for (int i = 0; i < numberof_roundstoinput; i++) {
+							AddWord();
+							sumof_allrounds_infile++;
 
+						}
+					}
+				}
+			}
+			if (option2_of_menu == 'b') {
+				do {
+					cout << "Enter number of letters: ";
+					cin >> input_numberofletters;
+					if (input_numberofletters > 25) cout << "The maximum number of letters is 25!" << endl;
+					numberofletters = input_numberofletters;
+				} 
+				while (input_numberofletters > 25);
+			}
+			if (option2_of_menu == 'c') {
+				cout << "Enter the number of all rounds if you want to play more than 60 rounds: ";
+				cin >> new_allrounds;
+				if (new_allrounds > 60) all_rounds = new_allrounds;
+			}
+			cout << endl;
+			cout << ">>Returning to menu.";
+			cout << endl;
+			break;
+		}
+		case 3: {
+			if (number_of_rounds > 50) {
+				if (numberof_therest_ofrounds != 0) {
+					AddWord();
+					sumof_allrounds_infile++;
+					cout << ">>Returning to menu.";
+					cout << endl;
+				}
+				else {
+					cout << "You reach the maximum number of rounds.You can't add any words." << endl;
+					cout << ">>Returning to menu.";
+					cout << endl;
+				}
+			}
+			else {
+				AddWord();
+				sumof_allrounds_infile++;
+				cout << ">>Returning to menu.";
+				cout << endl;
+			}
+			break;
+		}
+		}
+		cout << endl;
+		Menu();
+		option1_of_menu = Options();
+	}
+	return 0;
 }
 void Menu ()
 {
@@ -172,6 +261,9 @@ void NewGame(int number_of_lines, int number_of_letters)
 					continue;
 				}
 			}
+		}
+		else {
+			cout << "File cannot be found!";
 		}
 		int size_of_line = line.size();
 		string word;
