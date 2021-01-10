@@ -21,7 +21,7 @@
 #include<string>
 using namespace std;
 void Menu ();
-int Options ();
+int Options (int option_of_menu);
 bool OnlyLetters (string word1);
 int CheckTheWords (string line, string word);
 void NewGame (int number_of_currentline, int number_letters);
@@ -29,8 +29,13 @@ void Words (string new_word);
 void AddWord ();
 int main()
 {
+	int option1_of_menu;
 	Menu();
-	int option1_of_menu = Options();
+	do {
+		cin >> option1_of_menu;
+		if (Options(option1_of_menu) == 0) cout << "Incorect input. Select one of the above options: ";
+	} 
+	while (Options(option1_of_menu) == 0);
 	int number_of_rounds = 10;
 	int numberofletters = 10;
 	int numberof_roundstoinput;
@@ -56,18 +61,19 @@ int main()
 				do {
 					cout << "Enter number of rounds: ";
 					cin >> number_of_rounds;
-					if (number_of_rounds > all_rounds) cout << "The maximum number of all rounds is " << all_rounds << " !" << endl;
+					if (number_of_rounds > all_rounds) {
+						cout << "The maximum number of all rounds is " << all_rounds << " !" << endl;
+					}
 				} 
 				while (number_of_rounds > all_rounds);
 				if (number_of_rounds > 50) {
-					if (number_of_rounds != sumof_allrounds_infile) {
+					if (number_of_rounds > sumof_allrounds_infile) {
 						numberof_roundstoinput = number_of_rounds - sumof_allrounds_infile;
 						numberof_therest_ofrounds = all_rounds - number_of_rounds;
 						cout << "You need to input " << numberof_roundstoinput << " words in the dictionary." << endl;
 						for (int i = 0; i < numberof_roundstoinput; i++) {
 							AddWord();
 							sumof_allrounds_infile++;
-
 						}
 					}
 				}
@@ -76,15 +82,19 @@ int main()
 				do {
 					cout << "Enter number of letters: ";
 					cin >> input_numberofletters;
-					if (input_numberofletters > 25) cout << "The maximum number of letters is 25!" << endl;
-					numberofletters = input_numberofletters;
+					if (input_numberofletters > 25) {
+						cout << "The maximum number of letters is 25!" << endl;
+					}
 				} 
 				while (input_numberofletters > 25);
+				numberofletters = input_numberofletters;
 			}
 			if (option2_of_menu == 'c') {
 				cout << "Enter the number of all rounds if you want to play more than 60 rounds: ";
 				cin >> new_allrounds;
-				if (new_allrounds > 60) all_rounds = new_allrounds;
+				if (new_allrounds > 60) { 
+					all_rounds = new_allrounds; 
+				}
 			}
 			cout << endl;
 			cout << ">>Returning to menu.";
@@ -106,17 +116,24 @@ int main()
 				}
 			}
 			else {
-				AddWord();
-				sumof_allrounds_infile++;
-				cout << ">>Returning to menu.";
-				cout << endl;
-			}
+					AddWord();
+					sumof_allrounds_infile++;
+					cout << ">>Returning to menu.";
+					cout << endl;
+				}
 			break;
 		}
-		}
+	}
 		cout << endl;
 		Menu();
-		option1_of_menu = Options();
+		do {
+			cin >> option1_of_menu;
+			if (Options(option1_of_menu) == 0) cout << "Incorect input.Select one of the above options: ";
+		} 
+		while (Options(option1_of_menu) == 0);
+}
+	if (option1_of_menu == 4) {
+		exit(1);
 	}
 	return 0;
 }
@@ -130,19 +147,16 @@ void Menu ()
 	cout << " c.Change the number of all rounds to more than 60" << endl;
 	cout << "3.Enter a new word" << endl;
 	cout << "4.Exit" << endl;
+	cout << "Select one of the above options: ";
 }
-int Options ()
+int Options (int option_of_menu)
 {
-	int option_of_menu;
-	do {
-		cout << "Select one of the above options: ";
-		cin >> option_of_menu;
-		if (option_of_menu > 4) {
-			cout << "Incorrect input.Please select one of the above options.";
-		}
-	} 
-	while (option_of_menu > 4);
-	return option_of_menu;
+	if (option_of_menu > 4) { 
+		return 0;
+	}
+	else {
+		return 1;
+	}
 }
 bool OnlyLetters (string word1)
 {
@@ -236,10 +250,10 @@ int CheckTheWords (string line, string word)
 }
 void NewGame(int number_of_lines, int number_of_letters)
 {
-	ifstream read_letters;
-	read_letters.open("Dictionary.txt", ios::in);
 	int totalsum_of_points = 0;
 	for (int i = 1; i <= number_of_lines; i++) {
+		ifstream read_letters;
+		read_letters.open("Dictionary.txt", ios::in);
 		int line_number = i;
 		int lines_read = 0;
 		int size = 0; //in order to check for empty line
@@ -299,9 +313,9 @@ void NewGame(int number_of_lines, int number_of_letters)
 		} 
 		while (correct_input == 0);
 		totalsum_of_points = totalsum_of_points + CheckTheWords(line, word);
+		read_letters.close();
 	}
 	cout << "Your total points are: " << totalsum_of_points;
-	read_letters.close();
 }
 void Words (string new_word)
 {
@@ -326,7 +340,7 @@ void AddWord ()
 		}
 		else {
 			for (int i = 0; i < size_of_addword * 2; i++) {    //It is size_of_addword*2 because of 
-				                                              //the intervals between every letters.
+				                                             //the intervals between every letters.
 				if (addword[i] != ' ') {
 					addword.insert(i + 1, " ");
 				}
