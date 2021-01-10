@@ -67,5 +67,85 @@ bool OnlyLetters (string word1)
 	}
 	return is_letter;
 }
+int CheckTheWords (string line, string word)
+{
+	int sizeof_line = line.size();
+	int sizeof_inputword = word.size();
+	int sum_of_points = 0;
+	char letters_of_line[52] = {};
+	char letters_of_word[52] = {};
+	int count=0;
+	int index1_of_letters = 0;
+	int index2_of_count = 0;
+	int freq_of_line[26] = { 0 };
+	//finds the frequency of the letters in the word from the file
+	for (int i = 97; i <= 122; i++) {
+		for (int j = 0; j < sizeof_line; j++) {
+			if (i == line[j]) {
+				count++;
+				if (count == 1) {
+					letters_of_line[index1_of_letters] = line[j];
+					index1_of_letters++;
+				}
+			}
+		}
+			if (count != 0) {
+				freq_of_line[index2_of_count] = count;
+				index2_of_count++;
+				count = 0;
+			}
+	}
+	int numberof_letters_in_word = 0;
+	int indexof_freq_of_word = 0;
+	int freq_of_word[26] = { 0 };
+	//finds the frequency of the letters in the entered word
+	for (int i = 97; i <= 122; i++) {
+			count = 0;
+			for (int j = 0; j < sizeof_inputword; j++) {
+				if (i == word[j]) {
+					count++;
+					if (count == 1) {
+						letters_of_word[numberof_letters_in_word] = word[j];
+						numberof_letters_in_word++;
+					}
+				}
+			}
+			if (count != 0) {
+				freq_of_word[indexof_freq_of_word] = count;
+				indexof_freq_of_word++;
+			}
+	}
+	//compare the frequencies of the letters of the two words
+	int correct_letters;
+	for (int i = 0; i < numberof_letters_in_word; i++) {
+		correct_letters = 0;
+		for (int j = 0; j < index1_of_letters; j++) {
+			if (letters_of_word[i] == letters_of_line[j]) {
+				if (freq_of_word[i] == freq_of_line[j]) {
+					correct_letters++;
+				}
+				else {
+					if (freq_of_word[i] < freq_of_line[j]) {
+						correct_letters++;
+					}
+					if (freq_of_word[i] > freq_of_line[j]) {
+						break;
+					}
+				}
+			}
+		}
+		if (correct_letters == 0) {
+			break;
+		}
+	}
+	if (correct_letters == 0) {
+		sum_of_points = 0;
+	}
+	else {
+		sum_of_points = sizeof_inputword;
+	}
+	return sum_of_points;
+}
+
 
 
