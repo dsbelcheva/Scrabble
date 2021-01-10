@@ -44,6 +44,7 @@ int main()
 	int sumof_allrounds_infile = 50;
 	int all_rounds = 60;
 	int new_allrounds;
+	int size = 25; //number of letters
 	char option2_of_menu;
 	while (option1_of_menu != 4) {
 		switch (option1_of_menu) {
@@ -82,11 +83,11 @@ int main()
 				do {
 					cout << "Enter number of letters: ";
 					cin >> input_numberofletters;
-					if (input_numberofletters > 25) {
+					if (input_numberofletters > size) {
 						cout << "The maximum number of letters is 25!" << endl;
 					}
 				} 
-				while (input_numberofletters > 25);
+				while (input_numberofletters > size);
 				numberofletters = input_numberofletters;
 			}
 			if (option2_of_menu == 'c') {
