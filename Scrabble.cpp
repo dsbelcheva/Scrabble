@@ -24,8 +24,7 @@ void Menu ();
 int Options ();
 bool OnlyLetters (string word1);
 int CheckTheWords (string line, string word);
-int NewGame (int number_of_currentline, int number_letters);
-void Rounds (int number_of_lines, int number_of_letters);
+void NewGame (int number_of_currentline, int number_letters);
 void Words (string new_word);
 void AddWord ();
 int main()
@@ -146,6 +145,72 @@ int CheckTheWords (string line, string word)
 	}
 	return sum_of_points;
 }
+void NewGame(int number_of_lines, int number_of_letters)
+{
+	ifstream read_letters;
+	read_letters.open("Dictionary.txt", ios::in);
+	int totalsum_of_points = 0;
+	for (int i = 1; i <= number_of_lines; i++) {
+		int line_number = i;
+		int lines_read = 0;
+		int size = 0; //in order to check for empty line
+		string line;
+		if (read_letters.is_open()) {
+			while (read_letters) {
+				getline(read_letters, line);
+				size = line.size();
+				if (size != 0) {                         //check if it is not empty line
+					line.resize(2 * number_of_letters);   //it is multiplied by 2 because 
+														//of the intervals between each letters
+					lines_read++;
+					if (lines_read == line_number) {
+						cout << ">>Round " << line_number << "." << "Available letters: " << line << endl;
+						break;
+					}
+				}
+				else {
+					continue;
+				}
+			}
+		}
+		int size_of_line = line.size();
+		string word;
+		bool correct_word = 0;
+		int size_of_inputword = word.size();
+		cout << "Enter a word:" << endl << "<<";
+		cin >> word;
+		//check if the word entered by the user is correct
+		do {
+			if ((size_of_inputword > size_of_line) || (OnlyLetters(word) == 0) || (size_of_inputword > 100)) {
+				cout << "Invalid word.Try again.Available letters: " << line << endl;
+				cout << "<<";
+				cin >> word;
+			}
+			else {
+				correct_word = 1;
+			}
+		}
+		while (correct_word == 0);
+		//check if the word entered by the user is contained in the given word
+		bool correct_input = 0;
+		do {
+			if (CheckTheWords(line, word) == 0) {
+				cout << "Invalid word.Try again.Available letters: " << line << endl;
+				cout << "<<";
+				cin >> word;
+			}
+			else {
+				cout << "Your points are: " << CheckTheWords(line, word);
+				cout << endl;
+				correct_input = 1;
+			}
+		} 
+		while (correct_input == 0);
+		totalsum_of_points = totalsum_of_points + CheckTheWords(line, word);
+	}
+	cout << "Your total points are: " << totalsum_of_points;
+	read_letters.close();
+}
 void Words (string new_word)
 {
 	ofstream word2;
@@ -158,14 +223,18 @@ void AddWord ()
 	string addword;
 	int size_of_addword = 0;      //in order to do the while-loop for first time
 	do {
-		cout << "Enter a new word: ";
+		cout << "Enter a new word with small latin letters: ";
 		cin >> addword;
 		size_of_addword = addword.size();
 		if (size_of_addword != 25) {
 			cout << "The number of letters must be 25!Try again." << endl;
+			if (OnlyLetters(addword) != 1) {
+				cout << "Enter only small latin letters." << endl;
+			}
 		}
 		else {
-			for (int i = 0; i < size_of_addword * 2; i++) {    //It is size_of_addword*2 because of the intervals between every letters.
+			for (int i = 0; i < size_of_addword * 2; i++) {    //It is size_of_addword*2 because of 
+				                                              //the intervals between every letters.
 				if (addword[i] != ' ') {
 					addword.insert(i + 1, " ");
 				}
@@ -173,7 +242,7 @@ void AddWord ()
 		}
 	} 
 	while (size_of_addword != 25);
-	Words(addword);
+	Words (addword);
 }
 
 
